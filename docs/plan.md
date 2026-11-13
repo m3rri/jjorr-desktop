@@ -62,7 +62,7 @@ MVP(Minimum Viable Product)는 핵심 기능만 넣어 일단 동작하는 첫 �
 - [x] 1회 재생 애니메이션이 끝나면 idle로 되돌리기
 - [x] 이미지 크기 통일, 또는 기준점을 하단 중앙으로 잡아 전환할 때 위치가 튀지 않게 하기
 - [x] 시작할 때 애니메이션 이미지 미리 불러오기 (첫 전환 시 깜빡임 방지)
-- [x] 사용자 캐릭터 폴더(`%APPDATA%\desktop-pet\pet`)로 교체, `pet.json`으로 크기·속도·잠드는 시간 설정
+- [x] 사용자 캐릭터 폴더(`%APPDATA%\jjorr-desktop\pet`)로 교체, `pet.json`으로 크기·속도·잠드는 시간 설정
 
 ### 3단계: 멀티 모니터 (+1~2일) — 완료
 
@@ -114,7 +114,7 @@ MVP(Minimum Viable Product)는 핵심 기능만 넣어 일단 동작하는 첫 �
 - [x] 설치 파일 만들기 (결정: NSIS 설치 프로그램 - 시작 메뉴·바탕화면 바로가기, 제거)
   - electron-builder, 현재 사용자 설치(관리자 권한 불필요), 설치 위치 변경 가능, 한국어 설치 화면
   - 앱 아이콘: 곰을 16~256px 크기별로 다시 그려 .ico 생성 (128px 이미지를 늘리면 흐려짐)
-  - 설정 폴더를 `%APPDATA%\desktop-pet`으로 고정: 설치판은 productName("Desktop Pet")이 앱 이름이 되어 폴더가 바뀌므로, 압축판 설정을 이어 쓰도록 `app.setPath('userData')`로 지정
+  - 설정 폴더를 `%APPDATA%\jjorr-desktop`으로 고정: 설치판은 productName("jjorr-desktop")이 앱 이름이 되어 폴더가 바뀌므로, 압축판 설정을 이어 쓰도록 `app.setPath('userData')`로 지정
   - 제거해도 설정 폴더는 유지
   - Chromium 언어 파일은 한국어·영어만 포함
   - Linux에서 빌드하려면 Wine(32비트 포함) 필요: 제거 프로그램을 만들 때 32비트 NSIS 설치 프로그램을 실행하기 때문
@@ -221,7 +221,7 @@ MVP(Minimum Viable Product)는 핵심 기능만 넣어 일단 동작하는 첫 �
   - 처음 구현: 한국어 고정 프롬프트 2종(처음부터 / 사진 얼굴로) + 복사 버튼, 그림체 참고 이미지 저장
   - ChatGPT·Gemini로 시험해 보니 우리 그림체(끊긴 손그림 외곽선)와 일관된 상태별 이미지를 얻기 어려워 기능을 뺌
   - 남긴 것: "새 캐릭터 폴더" 버튼(캐릭터 영역), 정지 이미지 선 일렁임(직접 넣은 그림 한 장도 일렁이게)
-- [x] 새 캐릭터 폴더: `%APPDATA%\desktop-pet\pets\새 캐릭터 (N)` + pet.json 생성, 탐색기로 열고 목록에 추가
+- [x] 새 캐릭터 폴더: `%APPDATA%\jjorr-desktop\pets\새 캐릭터 (N)` + pet.json 생성, 탐색기로 열고 목록에 추가
   - idle 이미지가 없으면 "이미지를 넣어 주세요"로 표시(선택 불가). 설정 창에 포커스가 돌아오면 목록을 다시 읽어 바로 고를 수 있음
 - [x] 정지 이미지 선 일렁임: 정지 이미지를 부드러운 물결 변위로 휘게 한 3장을 번갈아 보여줌 (설정에서 끌 수 있음, 애니메이션 이미지는 그대로)
 - [x] 토끼 기본 캐릭터 추가: 볼이 빵빵한 하얀 토끼, 길게 선 귀(점프 때 바깥으로 기울어짐), 솜뭉치 꼬리, 작은 분홍 코, 웃는 눈은 반달 눈웃음. 클릭: 점프, 흔들기, 볼 감싸기, 하트
@@ -304,7 +304,7 @@ MVP(Minimum Viable Product)는 핵심 기능만 넣어 일단 동작하는 첫 �
 - [x] 테스트: 알릴 시점 계산 (`test/countdown.test.js`)
 - [x] Windows에서 확인
 - [x] 배포: 태그(`v*`) push → GitHub Actions(windows-latest)에서 빌드 → GitHub Releases에 업로드
-  - 제약: `releases/latest/download/<파일 이름>` 링크는 이름이 고정이어야 항상 최신을 가리킴 → 설치 파일 이름에서 버전을 뺌 (`DesktopPet-Setup.exe`)
+  - 제약: `releases/latest/download/<파일 이름>` 링크는 이름이 고정이어야 항상 최신을 가리킴 → 설치 파일 이름에서 버전을 뺌 (`jjorr-desktop-Setup.exe`)
   - 태그와 package.json 버전이 다르면 멈춤
   - 처음(v1.4.1)에는 바로 공개(`releaseType: release`)로 올렸는데, electron-builder가 파일을 동시에 올리면서 같은 태그의 Release를 2개 만듦 (하나는 exe·latest.yml, 하나는 blockmap만). latest 링크가 blockmap만 있는 쪽을 가리키는 동안 404
   - 고친 방식: Actions에서 `gh release create --draft`로 초안을 먼저 하나 만들고 → electron-builder가 그 초안에 올리고(`releaseType: draft`) → 다 올라간 뒤 `gh release edit --draft=false --latest`로 공개

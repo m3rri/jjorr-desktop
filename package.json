@@ -1,5 +1,5 @@
 {
-  "name": "desktop-pet",
+  "name": "jjorr-desktop",
   "version": "1.5.0",
   "description": "바탕화면에 이미지가 떠다니는 데스크톱 앱",
   "author": "m3rri",
@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron .",
     "test": "node test/displays.test.js && node test/pets.test.js && node test/countdown.test.js",
-    "package:win": "electron-packager . desktop-pet --platform=win32 --arch=x64 --out=dist --overwrite --asar --asar.unpack=\"*.node\" --ignore=\"^/dist\" --ignore=\"^/scripts\" --ignore=\"^/docs\" --ignore=\"^/test\" --ignore=\"/node_modules/koffi/build/koffi/(?!win32_x64)\" --ignore=\"/node_modules/koffi/(src|doc|vendor)/\"",
+    "package:win": "electron-packager . jjorr-desktop --platform=win32 --arch=x64 --out=dist --overwrite --asar --asar.unpack=\"*.node\" --ignore=\"^/dist\" --ignore=\"^/scripts\" --ignore=\"^/docs\" --ignore=\"^/test\" --ignore=\"/node_modules/koffi/build/koffi/(?!win32_x64)\" --ignore=\"/node_modules/koffi/(src|doc|vendor)/\"",
     "dist:win": "electron-builder --win nsis --x64 --publish never",
     "make-pets": "node scripts/make-pets.js"
   },
@@ -21,8 +21,8 @@
     "electron-builder": "^26.0.0"
   },
   "build": {
-    "appId": "io.github.m3rri.desktoppet",
-    "productName": "Desktop Pet",
+    "appId": "io.github.m3rri.jjorrdesktop",
+    "productName": "jjorr-desktop",
     "copyright": "© m3rri",
     "directories": {
       "output": "dist/installer",
@@ -55,7 +55,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Desktop Pet",
+      "shortcutName": "jjorr-desktop",
       "installerIcon": "assets/icon.ico",
       "uninstallerIcon": "assets/icon.ico",
       "installerLanguages": [
@@ -63,10 +63,10 @@
       ],
       "language": "1042",
       "deleteAppDataOnUninstall": false,
-      "artifactName": "DesktopPet-Setup.exe"
+      "artifactName": "jjorr-desktop-Setup.exe"
     },
     "publish": [
-      { "provider": "github", "owner": "m3rri", "repo": "desktop-pet", "releaseType": "draft" }
+      { "provider": "github", "owner": "m3rri", "repo": "jjorr-desktop", "releaseType": "draft" }
     ],
     "electronLanguages": [
       "ko",

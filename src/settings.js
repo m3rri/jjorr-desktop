@@ -237,7 +237,7 @@ function render(s) {
   $('autostart').disabled = !state.autoStart.available;
   $('autostart-hint').textContent = state.autoStart.available ? '' : '빌드한 exe에서만 설정할 수 있습니다';
   if (!recording) $('shortcut').textContent = state.shortcutLabel;
-  $('version').textContent = `Desktop Pet v${state.version}`;
+  $('version').textContent = `jjorr-desktop v${state.version}`;
 }
 
 $('open-userdata').addEventListener('click', () => api.openFolder('userData'));

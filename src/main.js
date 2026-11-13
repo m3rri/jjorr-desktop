@@ -5,10 +5,17 @@ const { clamp, displayKey, resolveDisplay, fitInto, displayMenuLabel } = require
 const { createFullscreenDetector } = require('./fullscreen');
 const { countdownMessage, dueAlert, validateCountdown } = require('./countdown');
 
-// 설정·로그 폴더를 %APPDATA%\desktop-pet 으로 고정.
-// 설치판은 productName("Desktop Pet")이 앱 이름이 되어 폴더가 %APPDATA%\Desktop Pet 으로 바뀌므로,
-// zip판에서 쓰던 설정을 그대로 이어 쓰도록 이름을 따로 지정. 단일 실행 잠금보다 먼저 해야 함
-app.setPath('userData', path.join(app.getPath('appData'), 'desktop-pet'));
+// 설정·로그 폴더를 %APPDATA%\jjorr-desktop 으로 고정.
+// 설치판(productName)과 zip판(실행 파일 이름)이 같은 폴더를 쓰도록 이름을 직접 지정. 단일 실행 잠금보다 먼저 해야 함
+// 이름 변경(desktop-pet → jjorr-desktop) 전에 쓰던 %APPDATA%\desktop-pet 이 있으면 처음 한 번 새 폴더로 옮김
+const USER_DATA_DIR = path.join(app.getPath('appData'), 'jjorr-desktop');
+const LEGACY_USER_DATA_DIR = path.join(app.getPath('appData'), 'desktop-pet');
+try {
+  if (!fs.existsSync(USER_DATA_DIR) && fs.existsSync(LEGACY_USER_DATA_DIR)) fs.renameSync(LEGACY_USER_DATA_DIR, USER_DATA_DIR);
+} catch (e) {
+  // 옮기지 못하면(다른 프로그램이 파일을 잡고 있는 등) 새 폴더에서 처음부터 시작
+}
+app.setPath('userData', USER_DATA_DIR);
 const { listPets, choosePet, effectiveValues, loadPetFromDir, previewOf, hasIdle, loadBowlImages } = require('./pets');
 
 const ASSETS = path.join(__dirname, '..', 'assets');
@@ -59,7 +66,7 @@ const visibility = {
 };
 let fullscreenDisplayId = null; // 전체 화면 감지 함수. Windows가 아니거나 감지를 못 쓰면 null
 
-// ---------- 로그 (%APPDATA%\desktop-pet\main.log) ----------
+// ---------- 로그 (%APPDATA%\jjorr-desktop\main.log) ----------
 function log(...args) {
   const line = `[${new Date().toISOString()}] pid=${process.pid} ${args.join(' ')}\n`;
   try { fs.appendFileSync(path.join(app.getPath('userData'), 'main.log'), line); } catch (_) { /* 무시 */ }
@@ -92,7 +99,7 @@ function loadCurrentPet() {
   throw new Error('idle 이미지가 있는 캐릭터 폴더를 찾을 수 없음');
 }
 
-// ---------- 설정 (%APPDATA%\desktop-pet\settings.json) ----------
+// ---------- 설정 (%APPDATA%\jjorr-desktop\settings.json) ----------
 const settingsFile = () => path.join(app.getPath('userData'), 'settings.json');
 
 function loadSettings() {
@@ -202,7 +209,7 @@ function reloadPet() {
   const oldSize = pet.size;
   pet = loadCurrentPet();
   resizePetWindow(oldSize);
-  if (tray) tray.setToolTip(`Desktop Pet - ${pet.name}`);
+  if (tray) tray.setToolTip(`jjorr-desktop - ${pet.name}`);
   sendToPet('pet:reload'); // 렌더러가 pet:load로 이미지를 다시 받아 디코딩
   hideBubble();
   cancelEat();
@@ -956,7 +963,7 @@ function openSettings() {
     height: 660,
     minWidth: 420,
     minHeight: 400,
-    title: 'Desktop Pet 설정',
+    title: 'jjorr-desktop 설정',
     icon: nativeImage.createFromPath(TRAY_ICON),
     show: false,
     autoHideMenuBar: true,
@@ -1002,7 +1009,7 @@ function registerSettingsIpc() {
     return applySetting('pet', existing ? existing.id : `folder:${dir}`);
   });
 
-  // 새 캐릭터 폴더: %APPDATA%\desktop-pet\pets\새 캐릭터 (N) 을 만들고 탐색기로 열어 줌.
+  // 새 캐릭터 폴더: %APPDATA%\jjorr-desktop\pets\새 캐릭터 (N) 을 만들고 탐색기로 열어 줌.
   // 목록에 바로 추가되며, idle 이미지를 넣기 전까지는 "이미지를 넣어 주세요"로 표시되고 선택할 수 없음
   ipcMain.handle('settings:create-pet-folder', () => {
     const root = path.join(app.getPath('userData'), 'pets');
@@ -1130,7 +1137,7 @@ function updateTrayMenu() {
 function createTray() {
   const icon = nativeImage.createFromPath(TRAY_ICON).resize({ width: 16, height: 16 });
   tray = new Tray(icon);
-  tray.setToolTip(`Desktop Pet - ${pet.name}`);
+  tray.setToolTip(`jjorr-desktop - ${pet.name}`);
   tray.on('click', toggleWindow);
   tray.on('double-click', openSettings);
   updateTrayMenu();

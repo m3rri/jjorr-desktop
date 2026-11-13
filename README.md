@@ -1,4 +1,4 @@
-# Desktop Pet
+# jjorr-desktop
 
 바탕화면 위에 이미지가 떠 있는 데스크톱 앱 (Electron).
 단계별 계획과 검토한 기술 이슈는 [docs/plan.md](docs/plan.md) 참고.
@@ -15,19 +15,19 @@ npm start
 
 ## 설치
 
-[최신 설치 프로그램 내려받기](https://github.com/m3rri/desktop-pet/releases/latest/download/DesktopPet-Setup.exe) (`DesktopPet-Setup.exe`)를 실행합니다. 지난 버전은 [Releases](https://github.com/m3rri/desktop-pet/releases)에 있습니다.
+[최신 설치 프로그램 내려받기](https://github.com/m3rri/jjorr-desktop/releases/latest/download/jjorr-desktop-Setup.exe) (`jjorr-desktop-Setup.exe`)를 실행합니다. 지난 버전은 [Releases](https://github.com/m3rri/jjorr-desktop/releases)에 있습니다.
 
-- 기본은 "현재 사용자만" 설치라 관리자 권한이 필요 없습니다 (`%LOCALAPPDATA%\Programs\Desktop Pet`)
+- 기본은 "현재 사용자만" 설치라 관리자 권한이 필요 없습니다 (`%LOCALAPPDATA%\Programs\jjorr-desktop`)
 - 시작 메뉴와 바탕화면에 바로가기가 생기고, 설정 → 앱에서 제거할 수 있습니다
-- 제거해도 설정·로그 폴더(`%APPDATA%\desktop-pet`)는 남습니다. 다시 설치하면 그대로 이어서 씁니다
+- 제거해도 설정·로그 폴더(`%APPDATA%\jjorr-desktop`)는 남습니다. 다시 설치하면 그대로 이어서 씁니다
 - 코드 서명이 없어 처음 실행할 때 SmartScreen 경고가 뜨면 "추가 정보 → 실행"
 
 ## 빌드
 
 ```bash
 npm install
-npm run dist:win      # 설치 프로그램 → dist/installer/DesktopPet-Setup.exe (내 PC에만 만들고 올리지 않음)
-npm run package:win   # 압축 버전(설치 없이 실행) → dist/desktop-pet-win32-x64/
+npm run dist:win      # 설치 프로그램 → dist/installer/jjorr-desktop-Setup.exe (내 PC에만 만들고 올리지 않음)
+npm run package:win   # 압축 버전(설치 없이 실행) → dist/jjorr-desktop-win32-x64/
 ```
 
 `dist:win`은 Windows에서 실행하면 바로 됩니다. Linux·macOS에서는 Wine(32비트 포함)이 필요합니다.
@@ -35,16 +35,16 @@ electron-builder가 제거 프로그램을 만들 때 설치 프로그램을 한
 
 ## 배포
 
-`v<버전>` 태그를 push하면 GitHub Actions(`.github/workflows/release.yml`)가 Windows에서 설치 프로그램을 빌드해 [Releases](https://github.com/m3rri/desktop-pet/releases)에 올립니다.
+`v<버전>` 태그를 push하면 GitHub Actions(`.github/workflows/release.yml`)가 Windows에서 설치 프로그램을 빌드해 [Releases](https://github.com/m3rri/jjorr-desktop/releases)에 올립니다.
 
 1. `package.json`의 `version`을 올려 커밋 (예: `1.4.2`)
 2. `git push origin main`
 3. `git tag v1.4.2` → `git push origin v1.4.2`
-4. Actions 탭에서 끝나면 Release에 `DesktopPet-Setup.exe`, `latest.yml`, `.blockmap`이 올라감
+4. Actions 탭에서 끝나면 Release에 `jjorr-desktop-Setup.exe`, `latest.yml`, `.blockmap`이 올라감
 
 - 태그와 `package.json` 버전이 다르면 빌드하지 않고 멈춥니다
 - Release는 초안으로 먼저 만들고, 파일이 다 올라간 뒤에 공개합니다 (같은 태그의 Release가 2개 생기거나, 파일이 덜 올라간 Release를 latest 링크가 가리키는 것을 막기 위해)
-- 설치 파일 이름에 버전을 넣지 않아서 `releases/latest/download/DesktopPet-Setup.exe`가 항상 최신 버전을 가리킵니다
+- 설치 파일 이름에 버전을 넣지 않아서 `releases/latest/download/jjorr-desktop-Setup.exe`가 항상 최신 버전을 가리킵니다
 - `latest.yml`은 나중에 앱 안 자동 업데이트(electron-updater)가 최신 버전을 확인할 때 씁니다
 - 업로드 권한은 Actions에 기본으로 주어지는 `GITHUB_TOKEN`을 씁니다. 다만 `.github/workflows` 파일을 push하려면 push에 쓰는 토큰(fine-grained PAT)에 **Workflows: Read and write** 권한이 있어야 합니다
 
@@ -99,7 +99,7 @@ electron-builder가 제거 프로그램을 만들 때 설치 프로그램을 한
 
 | 항목 | 내용 |
 |---|---|
-| 캐릭터 | 기본 제공(곰, 검은 고양이, 푸들, 토끼, 쿼카, 오목눈이)과 내 폴더 중에서 선택. **새 캐릭터 폴더**로 빈 폴더(`%APPDATA%\desktop-pet\pets\새 캐릭터`)를 만들어 이미지를 넣을 수 있음. 이미지를 넣기 전에는 "이미지를 넣어 주세요"로 표시되고, 넣은 뒤 설정 창으로 돌아오면 바로 고를 수 있음. 재시작 없이 바로 바뀜. **폴더 추가**로 다른 폴더를 등록할 수 있고, 폴더 안 이미지를 바꿨으면 **다시 불러오기** |
+| 캐릭터 | 기본 제공(곰, 검은 고양이, 푸들, 토끼, 쿼카, 오목눈이)과 내 폴더 중에서 선택. **새 캐릭터 폴더**로 빈 폴더(`%APPDATA%\jjorr-desktop\pets\새 캐릭터`)를 만들어 이미지를 넣을 수 있음. 이미지를 넣기 전에는 "이미지를 넣어 주세요"로 표시되고, 넣은 뒤 설정 창으로 돌아오면 바로 고를 수 있음. 재시작 없이 바로 바뀜. **폴더 추가**로 다른 폴더를 등록할 수 있고, 폴더 안 이미지를 바꿨으면 **다시 불러오기** |
 | 크기 | 64~256px. 발 위치를 고정한 채 커지고 작아짐 |
 | 이동 속도 | 0~200px/초. 0이면 제자리 |
 | 잠들기까지 | 캐릭터 기본값 / 안 잠 / 1~60분 |
@@ -151,7 +151,7 @@ electron-builder가 제거 프로그램을 만들 때 설치 프로그램을 한
 ### 정지 이미지 선 일렁임
 
 정지 이미지(PNG 한 장 등)를 불러오면 앱이 픽셀을 아주 조금씩 다르게 휘게 한 3장을 만들어 번갈아 보여줍니다(220ms 간격). 직접 넣은 그림 한 장도 기본 캐릭터처럼 외곽선이 손그림 애니메이션처럼 일렁입니다. 설정의 "정지 이미지 선 일렁임"으로 끌 수 있고, 움직이는 이미지(GIF, APNG 등)에는 적용하지 않습니다.
-**새 캐릭터 폴더 만들기**는 `%APPDATA%\desktop-pet\pets\새 캐릭터` 폴더를 만들어 열고 목록에 추가합니다. idle 이미지를 넣기 전까지는 "이미지를 넣어 주세요"로 표시되고, 이미지를 넣고 설정 창으로 돌아오면 바로 고를 수 있습니다.
+**새 캐릭터 폴더 만들기**는 `%APPDATA%\jjorr-desktop\pets\새 캐릭터` 폴더를 만들어 열고 목록에 추가합니다. idle 이미지를 넣기 전까지는 "이미지를 넣어 주세요"로 표시되고, 이미지를 넣고 설정 창으로 돌아오면 바로 고를 수 있습니다.
 트레이 아이콘은 지금 캐릭터의 대표 이미지로 바뀝니다.
 
 ## 여러 모니터
@@ -179,10 +179,10 @@ electron-builder가 제거 프로그램을 만들 때 설치 프로그램을 한
 ## 캐릭터 바꾸기
 
 아래처럼 이미지를 넣은 폴더를 만들고 설정 화면의 **폴더 추가**로 고르면 됩니다.
-`%APPDATA%\desktop-pet\pet` 폴더는 따로 추가하지 않아도 목록에 나옵니다. 설정에서 캐릭터를 고른 적이 없으면 이 폴더가 우선입니다.
+`%APPDATA%\jjorr-desktop\pet` 폴더는 따로 추가하지 않아도 목록에 나옵니다. 설정에서 캐릭터를 고른 적이 없으면 이 폴더가 우선입니다.
 
 ```
-%APPDATA%\desktop-pet\pet\
+%APPDATA%\jjorr-desktop\pet\
 ├── idle.png      필수. 이미지가 없는 상태는 이 이미지로 대체
 ├── walk.gif
 ├── click_1.gif   ┐
@@ -244,10 +244,10 @@ electron-builder가 제거 프로그램을 만들 때 설치 프로그램을 한
 
 | 파일 | 위치 |
 |---|---|
-| 사용자 캐릭터 | `%APPDATA%\desktop-pet\pet\` |
-| 설정 | `%APPDATA%\desktop-pet\settings.json` (설정 화면 아래 "설정·로그 폴더 열기") |
-| 마지막 위치 | `%APPDATA%\desktop-pet\window-state.json` |
-| 로그 | `%APPDATA%\desktop-pet\main.log` |
+| 사용자 캐릭터 | `%APPDATA%\jjorr-desktop\pet\` |
+| 설정 | `%APPDATA%\jjorr-desktop\settings.json` (설정 화면 아래 "설정·로그 폴더 열기") |
+| 마지막 위치 | `%APPDATA%\jjorr-desktop\window-state.json` |
+| 로그 | `%APPDATA%\jjorr-desktop\main.log` |
 
 ## 구조
 

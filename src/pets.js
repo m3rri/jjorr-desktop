@@ -43,7 +43,7 @@ const samePath = (a, b) => path.resolve(a).toLowerCase() === path.resolve(b).toL
 
 // 고를 수 있는 캐릭터 목록
 //   내장: builtinRoot 아래 폴더들 (default가 맨 앞)
-//   사용자: userPetDir(%APPDATA%\desktop-pet\pet), 설정에서 추가한 폴더들
+//   사용자: userPetDir(%APPDATA%\jjorr-desktop\pet), 설정에서 추가한 폴더들
 // 추가한 폴더가 지워졌거나 idle 이미지가 없으면 missing=true 로 표시 (선택 불가, 목록에서 제거만 가능).
 // 폴더는 있는데 idle 이미지가 아직 없으면 empty=true (새 캐릭터 폴더를 막 만든 상태)
 function listPets({ builtinRoot, userPetDir, extraDirs = [], log }) {
@@ -77,7 +77,7 @@ function listPets({ builtinRoot, userPetDir, extraDirs = [], log }) {
 function choosePet(pets, petId) {
   const usable = pets.filter((p) => !p.missing);
   return (petId && usable.find((p) => p.id === petId))
-    || usable.find((p) => !p.builtin && !p.removable) // %APPDATA%\desktop-pet\pet (예전 방식 호환)
+    || usable.find((p) => !p.builtin && !p.removable) // %APPDATA%\jjorr-desktop\pet (예전 방식 호환)
     || usable.find((p) => p.id === 'builtin:default')
     || usable[0]
     || null;
